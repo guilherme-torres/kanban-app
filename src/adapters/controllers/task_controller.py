@@ -3,7 +3,7 @@ from src.core.use_cases.create_task import CreateTaskUseCase
 from src.core.use_cases.list_user_tasks import ListUserTasksUseCase
 from src.core.use_cases.update_task import UpdateTaskUseCase
 from src.core.use_cases.delete_task import DeleteTaskUseCase
-from src.adapters.schemas.task import TaskCreate, TaskResponse
+from src.adapters.schemas.task import TaskCreate, TaskResponse, TaskUpdate
 from src.core.entities.task import Task
 
 
@@ -57,7 +57,7 @@ class TaskController:
             )
         )
 
-    def update_task(self, task_id: int, task_data: TaskCreate) -> TaskResponse:
+    def update_task(self, task_id: int, task_data: TaskUpdate) -> TaskResponse:
         updated_task = self.update_task_use_case.execute(
             task_id=task_id, task_data=task_data.model_dump(exclude_unset=True)
         )
