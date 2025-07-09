@@ -6,9 +6,9 @@ from typing import Optional
 @dataclass
 class Task:
     title: str
-    description: str
-    start: datetime
-    end: datetime
     user_id: int
     status_id: int
+    description: Optional[str] = None
+    start: Optional[datetime] = None
+    end: Optional[datetime] = None
     id: Optional[int] = None

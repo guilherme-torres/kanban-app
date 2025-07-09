@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List, Union
+from typing import List, Optional
 from src.core.entities.user import User
 
 
@@ -9,7 +9,7 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    def find_by_id(self, id: int) -> Union[User, None]:
+    def find_by_id(self, id: int) -> Optional[User]:
         pass
 
     @abstractmethod
@@ -17,7 +17,7 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    def find_by_email(self, email: str) -> Union[User, None]:
+    def find_by_email(self, email: str) -> Optional[User]:
         pass
 
     @abstractmethod

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List, Union
+from typing import List, Optional
 from src.core.entities.status import Status
 
 
@@ -9,7 +9,7 @@ class IStatusRepository(ABC):
         pass
 
     @abstractmethod
-    def find_by_id(self, id: int) -> Union[Status, None]:
+    def find_by_id(self, id: int) -> Optional[Status]:
         pass
 
     @abstractmethod

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List, Union, Dict, Any
+from typing import List, Optional, Dict, Any
 from src.core.entities.task import Task
 
 
@@ -9,7 +9,7 @@ class ITaskRepository(ABC):
         pass
 
     @abstractmethod
-    def find_by_id(self, id: int) -> Union[Task, None]:
+    def find_by_id(self, id: int) -> Optional[Task]:
         pass
 
     @abstractmethod
