@@ -2,7 +2,7 @@ from typing import List
 from src.core.repository_interfaces.user_repository import IUserRepository
 from src.core.repository_interfaces.task_repository import ITaskRepository
 from src.core.entities.task import Task
-from src.core.use_cases.exceptions import UserNotFoundError
+from src.core.use_cases.exceptions import UserNotFoundError, ApplicationError
 
 
 class ListUserTasksUseCase:
@@ -15,6 +15,8 @@ class ListUserTasksUseCase:
         self.task_repository = task_repository
 
     def execute(self, user_id: int) -> List[Task]:
+        if not user_id:
+            raise ApplicationError("user_id required")
         user_exist = self.user_repository.find_by_id(user_id)
         if not user_exist:
             raise UserNotFoundError("User not found")
