@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from src.core.entities.status import Status
 
 
@@ -18,4 +18,8 @@ class IStatusRepository(ABC):
 
     @abstractmethod
     def delete(self, id: int) -> None:
+        pass
+
+    @abstractmethod
+    def filter_by(self, filter_dict: Dict[str, Any]) -> List[Status]:
         pass

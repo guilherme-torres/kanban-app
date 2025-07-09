@@ -1,3 +1,4 @@
+from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from src.adapters.controllers.task_controller import TaskController
@@ -66,7 +67,7 @@ def delete_task(id: int, db: Session = Depends(get_db_session)):
             status_code=status.HTTP_404_NOT_FOUND, detail="Task not found"
         )
     
-@router.put("/{id}")
+@router.put("/{id}", response_model=TaskResponse)
 def update_task(id: int, task_data: TaskUpdate, db: Session = Depends(get_db_session)):
     try:
         task_controller = get_task_controller(db)
@@ -80,7 +81,7 @@ def update_task(id: int, task_data: TaskUpdate, db: Session = Depends(get_db_ses
             status_code=status.HTTP_404_NOT_FOUND, detail="Status not found"
         )
     
-@router.get("/")
+@router.get("/", response_model=List[TaskResponse])
 def list_user_tasks(user_id: int, db: Session = Depends(get_db_session)):
     try:
         task_controller = get_task_controller(db)

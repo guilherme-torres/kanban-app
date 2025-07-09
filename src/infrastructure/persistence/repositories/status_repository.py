@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Any, Dict, Optional, List
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from src.core.repository_interfaces.status_repository import IStatusRepository
@@ -44,3 +44,11 @@ class StatusRepository(IStatusRepository):
         status_db = self.session.get(StatusModel, id)
         self.session.delete(status_db)
         self.session.commit()
+
+    def filter_by(self, filter_dict: Dict[str, Any]) -> List[Status]:
+        status_db = self.session.scalars(select(StatusModel).filter_by(**filter_dict)).all()
+        return list(map(lambda status: Status(
+            id=status.id,
+            name=status.name,
+            user_id=status.user_id
+        ), status_db))
