@@ -12,3 +12,6 @@ class StatusNotFoundError(ApplicationError):
 
 class TaskNotFoundError(ApplicationError):
     pass
+
+class InvalidCredentialsError(ApplicationError):
+    pass
