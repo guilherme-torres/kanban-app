@@ -19,7 +19,9 @@ class AuthenticateUseCase:
         if not email or not password:
             raise ApplicationError("Credentials required")
         user = self.user_repository.find_by_email(email)
-        if not user or not self.password_hasher.verify(password, user.password):
+        if not user:
             raise InvalidCredentialsError("Invalid credentials")
-        token = self.jwt_service.generate_token({"sub": user.id})
+        if not self.password_hasher.verify(password, user.password):
+            raise InvalidCredentialsError("Invalid credentials")
+        token = self.jwt_service.generate_token({"name": user.name, "user_id": user.id})
         return token

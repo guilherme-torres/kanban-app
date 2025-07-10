@@ -10,7 +10,3 @@ class IJWTService(ABC):
     @abstractmethod
     def validate_token(self, token: str) -> bool:
         pass
-
-    @abstractmethod
-    def decode_token(self, token: str) -> Dict[str, Any]:
-        pass
