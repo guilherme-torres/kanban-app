@@ -12,7 +12,6 @@ from src.core.use_cases.exceptions import InvalidCredentialsError
 
 router = APIRouter(prefix="/token")
 
-
 def get_auth_controller(db: Session):
     user_repository = UserRepository(db)
     password_hasher = PasswordHasher()
@@ -23,7 +22,6 @@ def get_auth_controller(db: Session):
         password_hasher=password_hasher,
     )
     return AuthController(auth_use_case)
-
 
 @router.post("/", response_model=AuthResponse)
 def generate_token(credendials: AuthCredentials, db: Session = Depends(get_db_session)):

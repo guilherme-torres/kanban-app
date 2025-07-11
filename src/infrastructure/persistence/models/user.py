@@ -20,5 +20,9 @@ class User(Base):
         back_populates="user", cascade="all, delete-orphan"
     )
 
+    boards: Mapped[List["Board"]] = relationship(
+        back_populates="user", cascade="all, delete-orphan"
+    )
+
     def __repr__(self):
         return f"User(id={self.id}, name={self.name}, email={self.email}, password={self.password})"

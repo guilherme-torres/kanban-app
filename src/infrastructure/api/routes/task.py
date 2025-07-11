@@ -16,7 +16,6 @@ from src.adapters.schemas.task import TaskCreate, TaskResponse, TaskUpdate
 
 router = APIRouter(prefix="/tasks")
 
-
 def get_task_controller(db: Session):
     task_repository = TaskRepository(db)
     status_repository = StatusRepository(db)
@@ -41,7 +40,6 @@ def get_task_controller(db: Session):
         update_task_use_case=update_task_use_case,
         delete_task_use_case=delete_task_use_case,
     )
-
 
 @router.post("/", response_model=TaskResponse)
 def create_task(task_data: TaskCreate, db: Session = Depends(get_db_session)):

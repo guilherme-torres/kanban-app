@@ -14,7 +14,6 @@ from src.adapters.schemas.status import StatusCreate, StatusResponse
 
 router = APIRouter(prefix="/status")
 
-
 def get_status_controller(db: Session):
     status_repository = StatusRepository(db)
     user_repository = UserRepository(db)
@@ -30,7 +29,6 @@ def get_status_controller(db: Session):
         delete_status_use_case,
         list_user_status_use_case,
     )
-
 
 @router.post("/", response_model=StatusResponse)
 def create_status(status_data: StatusCreate, db: Session = Depends(get_db_session)):

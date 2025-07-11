@@ -15,3 +15,9 @@ class TaskNotFoundError(ApplicationError):
 
 class InvalidCredentialsError(ApplicationError):
     pass
+
+class BoardAlreadyExistsError(ApplicationError):
+    pass
+
+class BoardNotFoundError(ApplicationError):
+    pass

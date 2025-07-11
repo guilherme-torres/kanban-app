@@ -1,6 +1,4 @@
-from typing import Dict, Any
 from src.core.repository_interfaces.task_repository import ITaskRepository
-from src.core.entities.task import Task
 from src.core.use_cases.exceptions import TaskNotFoundError
 
 
