@@ -6,4 +6,5 @@ from typing import Optional
 class Status:
     name: str
     user_id: int
+    board_id: int
     id: Optional[int] = None

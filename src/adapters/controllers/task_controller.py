@@ -28,6 +28,7 @@ class TaskController:
             end=task_data.end,
             user_id=task_data.user_id,
             status_id=task_data.status_id,
+            board_id=task_data.board_id,
         )
         created_task = self.create_task_use_case.execute(task)
         return TaskResponse(
@@ -38,6 +39,7 @@ class TaskController:
             end=created_task.end,
             user_id=created_task.user_id,
             status_id=created_task.status_id,
+            board_id=created_task.board_id,
         )
 
     def list_user_tasks(self, user_id: int) -> List[TaskResponse]:
@@ -52,6 +54,7 @@ class TaskController:
                     end=task.end,
                     user_id=task.user_id,
                     status_id=task.status_id,
+                    board_id=task.board_id,
                 ),
                 tasks,
             )
@@ -69,6 +72,7 @@ class TaskController:
             end=updated_task.end,
             user_id=updated_task.user_id,
             status_id=updated_task.status_id,
+            board_id=updated_task.board_id,
         )
 
     def delete_task(self, task_id: int) -> None:

@@ -7,6 +7,7 @@ class TaskBase(BaseModel):
     title: str
     user_id: int
     status_id: int
+    board_id: int
     description: Optional[str] = None
     start: Optional[datetime] = None
     end: Optional[datetime] = None

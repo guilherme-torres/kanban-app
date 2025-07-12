@@ -13,7 +13,8 @@ class StatusRepository(IStatusRepository):
     def save(self, status: Status) -> Status:
         status_db = StatusModel(
             name=status.name,
-            user_id=status.user_id
+            user_id=status.user_id,
+            board_id=status.board_id,
         )
         self.session.add(status_db)
         self.session.commit()
@@ -21,7 +22,8 @@ class StatusRepository(IStatusRepository):
         return Status(
             id=status_db.id,
             name=status_db.name,
-            user_id=status_db.user_id
+            user_id=status_db.user_id,
+            board_id=status_db.board_id,
         )
 
     def find_by_id(self, id: int) -> Optional[Status]:
@@ -29,7 +31,8 @@ class StatusRepository(IStatusRepository):
         return Status(
             id=status_db.id,
             name=status_db.name,
-            user_id=status_db.user_id
+            user_id=status_db.user_id,
+            board_id=status_db.board_id,
         ) if status_db else None
 
     def list_all(self) -> List[Status]:
@@ -37,7 +40,8 @@ class StatusRepository(IStatusRepository):
         return list(map(lambda status: Status(
             id=status.id,
             name=status.name,
-            user_id=status.user_id
+            user_id=status.user_id,
+            board_id=status.board_id,
         ), status_db))
 
     def delete(self, id: int) -> None:
@@ -50,5 +54,6 @@ class StatusRepository(IStatusRepository):
         return list(map(lambda status: Status(
             id=status.id,
             name=status.name,
-            user_id=status.user_id
+            user_id=status.user_id,
+            board_id=status.board_id,
         ), status_db))

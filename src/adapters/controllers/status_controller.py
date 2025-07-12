@@ -21,12 +21,14 @@ class StatusController:
         status = Status(
             name=status_data.name,
             user_id=status_data.user_id,
+            board_id=status_data.board_id,
         )
         created_status = self.create_status_use_case.execute(status)
         return StatusResponse(
             id=created_status.id,
             name=created_status.name,
             user_id=created_status.user_id,
+            board_id=created_status.board_id,
         )
 
     def delete_status(self, status_id: int) -> None:
@@ -40,6 +42,7 @@ class StatusController:
                     id=status.id,
                     name=status.name,
                     user_id=status.user_id,
+                    board_id=status.board_id,
                 ),
                 statuses,
             )

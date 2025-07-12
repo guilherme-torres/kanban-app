@@ -15,8 +15,11 @@ class Task(Base):
     end: Mapped[Optional[datetime]]
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     status_id: Mapped[int] = mapped_column(ForeignKey("status.id"))
+    board_id: Mapped[int] = mapped_column(ForeignKey("boards.id"))
 
     user: Mapped["User"] = relationship(back_populates="tasks")
+    status: Mapped["Status"] = relationship(back_populates="tasks")
+    board: Mapped["Board"] = relationship(back_populates="tasks")
 
     def __repr__(self):
         return (

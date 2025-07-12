@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional, Dict, Any
 from src.core.entities.board import Board
+from src.core.entities.task import Task
+from src.core.entities.status import Status
 
 
 class IBoardRepository(ABC):
@@ -26,4 +28,12 @@ class IBoardRepository(ABC):
 
     @abstractmethod
     def update(self, id: int, data: Dict[str, Any]) -> Board:
+        pass
+
+    @abstractmethod
+    def list_tasks(self, board_id: int) -> List[Task]:
+        pass
+
+    @abstractmethod
+    def list_statuses(self, board_id: int) -> List[Status]:
         pass

@@ -17,7 +17,8 @@ class TaskRepository(ITaskRepository):
             start=task.start,
             end=task.end,
             user_id=task.user_id,
-            status_id=task.status_id
+            status_id=task.status_id,
+            board_id=task.board_id,
         )
         self.session.add(task_db)
         self.session.commit()
@@ -29,7 +30,8 @@ class TaskRepository(ITaskRepository):
             start=task_db.start,
             end=task_db.end,
             user_id=task_db.user_id,
-            status_id=task_db.status_id
+            status_id=task_db.status_id,
+            board_id=task_db.board_id,
         )
 
     def find_by_id(self, id: int) -> Optional[Task]:
@@ -41,7 +43,8 @@ class TaskRepository(ITaskRepository):
             start=task_db.start,
             end=task_db.end,
             user_id=task_db.user_id,
-            status_id=task_db.status_id
+            status_id=task_db.status_id,
+            board_id=task_db.board_id,
         ) if task_db else None
 
     def list_all(self) -> List[Task]:
@@ -53,7 +56,8 @@ class TaskRepository(ITaskRepository):
             start=task.start,
             end=task.end,
             user_id=task.user_id,
-            status_id=task.status_id
+            status_id=task.status_id,
+            board_id=task.board_id,
         ), tasks_db))
 
     def delete(self, id: int) -> None:
@@ -74,7 +78,8 @@ class TaskRepository(ITaskRepository):
             start=task_db.start,
             end=task_db.end,
             user_id=task_db.user_id,
-            status_id=task_db.status_id
+            status_id=task_db.status_id,
+            board_id=task_db.board_id,
         )
 
     def filter_by(self, filter_dict: Dict[str, Any]) -> List[Task]:
@@ -86,5 +91,6 @@ class TaskRepository(ITaskRepository):
             start=task.start,
             end=task.end,
             user_id=task.user_id,
-            status_id=task.status_id
+            status_id=task.status_id,
+            board_id=task.board_id,
         ), tasks_db))

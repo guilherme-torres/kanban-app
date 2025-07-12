@@ -5,9 +5,10 @@ from src.adapters.controllers.status_controller import StatusController
 from src.core.use_cases.create_status import CreateStatusUseCase
 from src.core.use_cases.delete_status import DeleteStatusUseCase
 from src.core.use_cases.list_user_status import ListUserStatusUseCase
-from src.core.use_cases.exceptions import UserNotFoundError, StatusNotFoundError
+from src.core.use_cases.exceptions import UserNotFoundError, StatusNotFoundError, BoardNotFoundError
 from src.infrastructure.persistence.repositories.status_repository import StatusRepository
 from src.infrastructure.persistence.repositories.user_repository import UserRepository
+from src.infrastructure.persistence.repositories.board_repository import BoardRepository
 from src.infrastructure.persistence.database.db import get_db_session
 from src.adapters.schemas.status import StatusCreate, StatusResponse
 
@@ -17,8 +18,11 @@ router = APIRouter(prefix="/status")
 def get_status_controller(db: Session):
     status_repository = StatusRepository(db)
     user_repository = UserRepository(db)
+    board_repository = BoardRepository(db)
     create_status_use_case = CreateStatusUseCase(
-        status_repository=status_repository, user_repository=user_repository
+        status_repository=status_repository,
+        user_repository=user_repository,
+        board_repository=board_repository,
     )
     delete_status_use_case = DeleteStatusUseCase(status_repository)
     list_user_status_use_case = ListUserStatusUseCase(
@@ -38,6 +42,10 @@ def create_status(status_data: StatusCreate, db: Session = Depends(get_db_sessio
     except UserNotFoundError:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="User not found"
+        )
+    except BoardNotFoundError:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Board not found"
         )
     
 @router.delete("/{id}")

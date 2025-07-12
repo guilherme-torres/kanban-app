@@ -5,12 +5,16 @@ from src.adapters.controllers.board_controller import BoardController
 from src.core.use_cases.create_board import CreateBoardUseCase
 from src.core.use_cases.delete_board import DeleteBoardUseCase
 from src.core.use_cases.list_user_boards import ListUserBoardsUseCase
+from src.core.use_cases.list_board_tasks import ListBoardTasksUseCase
+from src.core.use_cases.list_board_statuses import ListBoardStatusesUseCase
 from src.core.use_cases.rename_board import RenameBoardUseCase
 from src.core.use_cases.exceptions import UserNotFoundError, BoardAlreadyExistsError, BoardNotFoundError
 from src.infrastructure.persistence.repositories.board_repository import BoardRepository
 from src.infrastructure.persistence.repositories.user_repository import UserRepository
 from src.infrastructure.persistence.database.db import get_db_session
 from src.adapters.schemas.board import BoardCreate, BoardResponse, BoardUpdate
+from src.adapters.schemas.task import TaskResponse
+from src.adapters.schemas.status import StatusResponse
 
 
 router = APIRouter(prefix="/boards")
@@ -28,11 +32,15 @@ def get_board_controller(db: Session):
         user_repository=user_repository
     )
     rename_board_use_case = RenameBoardUseCase(board_repository)
+    list_board_tasks_use_case = ListBoardTasksUseCase(board_repository)
+    list_board_statuses_use_case = ListBoardStatusesUseCase(board_repository)
     return BoardController(
         create_board_use_case=create_board_use_case,
         delete_board_use_case=delete_board_use_case,
         rename_board_use_case=rename_board_use_case,
         list_user_boards_use_case=list_user_boards_use_case,
+        list_board_tasks_use_case=list_board_tasks_use_case,
+        list_board_statuses_use_case=list_board_statuses_use_case,
     )
 
 @router.post("/", response_model=BoardResponse)
@@ -59,7 +67,7 @@ def delete_board(id: int, db: Session = Depends(get_db_session)):
             status_code=status.HTTP_404_NOT_FOUND, detail="Board not found"
         )
     
-@router.post("/{id}", response_model=BoardResponse)
+@router.put("/{id}", response_model=BoardResponse)
 def rename_board(id: int, board_data: BoardUpdate, db: Session = Depends(get_db_session)):
     try:
         board_controller = get_board_controller(db)
@@ -81,4 +89,24 @@ def list_user_boards(user_id: int, db: Session = Depends(get_db_session)):
     except UserNotFoundError:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+        )
+
+@router.get("/{id}/tasks", response_model=List[TaskResponse])
+def list_board_tasks(id: int, db: Session = Depends(get_db_session)):
+    try:
+        board_controller = get_board_controller(db)
+        return board_controller.list_board_tasks(id)
+    except BoardNotFoundError:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Board not found"
+        )
+    
+@router.get("/{id}/statuses", response_model=List[StatusResponse])
+def list_board_statuses(id: int, db: Session = Depends(get_db_session)):
+    try:
+        board_controller = get_board_controller(db)
+        return board_controller.list_board_statuses(id)
+    except BoardNotFoundError:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Board not found"
         )

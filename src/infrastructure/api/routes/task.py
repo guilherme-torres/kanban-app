@@ -6,10 +6,11 @@ from src.core.use_cases.create_task import CreateTaskUseCase
 from src.core.use_cases.list_user_tasks import ListUserTasksUseCase
 from src.core.use_cases.update_task import UpdateTaskUseCase
 from src.core.use_cases.delete_task import DeleteTaskUseCase
-from src.core.use_cases.exceptions import UserNotFoundError, StatusNotFoundError, TaskNotFoundError
+from src.core.use_cases.exceptions import UserNotFoundError, StatusNotFoundError, TaskNotFoundError, BoardNotFoundError
 from src.infrastructure.persistence.repositories.task_repository import TaskRepository
 from src.infrastructure.persistence.repositories.status_repository import StatusRepository
 from src.infrastructure.persistence.repositories.user_repository import UserRepository
+from src.infrastructure.persistence.repositories.board_repository import BoardRepository
 from src.infrastructure.persistence.database.db import get_db_session
 from src.adapters.schemas.task import TaskCreate, TaskResponse, TaskUpdate
 
@@ -20,10 +21,12 @@ def get_task_controller(db: Session):
     task_repository = TaskRepository(db)
     status_repository = StatusRepository(db)
     user_repository = UserRepository(db)
+    board_repository = BoardRepository(db)
     create_task_use_case = CreateTaskUseCase(
         task_repository=task_repository,
         user_repository=user_repository,
         status_repository=status_repository,
+        board_repository=board_repository,
     )
     list_user_tasks_use_case = ListUserTasksUseCase(
         user_repository=user_repository,
@@ -53,6 +56,10 @@ def create_task(task_data: TaskCreate, db: Session = Depends(get_db_session)):
     except StatusNotFoundError:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Status not found"
+        )
+    except BoardNotFoundError:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Board not found"
         )
     
 @router.delete("/{id}")
